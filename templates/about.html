@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | Refn Auto Studio{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 data-aos="fade-up">About Refn Auto Studio</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Toronto's Premier Mobile Auto Detailing Service</p>
+</section>
+
+<section class="about-story">
+    <div class="about-content">
+        <div class="about-image" data-aos="fade-up">
+            <img src="{{ url_for('static', filename='img/about-hero.jpg') }}" alt="Refn Auto Studio - Premium Auto Detailing">
+        </div>
+        <div class="about-text" data-aos="fade-up" data-aos-delay="100">
+            <h2>Our Story</h2>
+            <p>Founded in Toronto with a passion for automotive excellence, Refn Auto Studio has grown to become the city's most trusted mobile detailing service. Our journey began with a simple belief: every vehicle deserves exceptional care, delivered with convenience.</p>
+            <p>What sets us apart is our unwavering commitment to quality and attention to detail. Our team of certified detailing professionals brings years of experience and expertise to every vehicle we touch.</p>
+        </div>
+    </div>
+</section>
+
+<section class="our-approach">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Our Approach</h2>
+        <p>Excellence in every detail</p>
+    </div>
+    
+    <div class="values-grid">
+        <div class="value-item" data-aos="fade-up" data-aos-delay="0">
+            <div class="value-icon">🌟</div>
+            <h3>Premium Quality</h3>
+            <p>We use only the finest products and techniques to ensure your vehicle receives the best possible care.</p>
+        </div>
+        <div class="value-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="value-icon">🚗</div>
+            <h3>Mobile Convenience</h3>
+            <p>Our fully-equipped mobile units bring professional detailing services directly to your location.</p>
+        </div>
+        <div class="value-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="value-icon">⚡</div>
+            <h3>Expert Team</h3>
+            <p>Our certified professionals have years of experience with luxury and exotic vehicles.</p>
+        </div>
+        <div class="value-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="value-icon">💎</div>
+            <h3>Attention to Detail</h3>
+            <p>Every vehicle receives meticulous attention, ensuring no detail is overlooked.</p>
+        </div>
+    </div>
+</section>
+
+<section class="certifications">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Our Certifications</h2>
+        <p>Professional standards you can trust</p>
+    </div>
+    
+    <div class="cert-grid">
+        <div class="cert-item" data-aos="fade-up" data-aos-delay="0">
+            <h3>IDA Certified</h3>
+            <p>International Detailing Association</p>
+        </div>
+        <div class="cert-item" data-aos="fade-up" data-aos-delay="100">
+            <h3>Ceramic Pro Certified</h3>
+            <p>Advanced Coating Applications</p>
+        </div>
+        <div class="cert-item" data-aos="fade-up" data-aos-delay="200">
+            <h3>XPEL Certified</h3>
+            <p>Paint Protection Films</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2 data-aos="fade-up">Experience the Refn Difference</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Let us bring our expertise to your vehicle</p>
+    <a href="#" class="btn btn-large" data-aos="fade-up" data-aos-delay="200">Book Your Service</a>
+</section>
+{% endblock %}

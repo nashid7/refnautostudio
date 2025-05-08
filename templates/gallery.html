@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery | Refn Auto Studio{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 data-aos="fade-up">Our Gallery</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Showcasing our premium detailing work</p>
+</section>
+
+<section class="gallery-section">
+    <div class="gallery-filters" data-aos="fade-up">
+        <button class="filter active" data-filter="all">All Work</button>
+        <button class="filter" data-filter="exterior">Exterior</button>
+        <button class="filter" data-filter="interior">Interior</button>
+        <button class="filter" data-filter="correction">Paint Correction</button>
+        <button class="filter" data-filter="coating">Ceramic Coating</button>
+    </div>
+
+    <div class="gallery-grid">
+        <!-- Exterior Gallery Items -->
+        <div class="gallery-item" data-category="exterior" data-aos="fade-up">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Exterior Detailing">
+            </div>
+            <div class="gallery-caption">
+                <h3>Exterior Detailing</h3>
+                <p>Complete exterior care and protection</p>
+            </div>
+        </div>
+
+        <!-- Interior Gallery Items -->
+        <div class="gallery-item" data-category="interior" data-aos="fade-up" data-aos-delay="100">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Interior Detailing">
+            </div>
+            <div class="gallery-caption">
+                <h3>Interior Detailing</h3>
+                <p>Premium interior cleaning and protection</p>
+            </div>
+        </div>
+
+        <!-- Paint Correction Gallery Items -->
+        <div class="gallery-item" data-category="correction" data-aos="fade-up" data-aos-delay="200">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Paint Correction">
+            </div>
+            <div class="gallery-caption">
+                <h3>Paint Correction</h3>
+                <p>Professional paint restoration</p>
+            </div>
+        </div>
+
+        <!-- Ceramic Coating Gallery Items -->
+        <div class="gallery-item" data-category="coating" data-aos="fade-up" data-aos-delay="300">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Ceramic Coating">
+            </div>
+            <div class="gallery-caption">
+                <h3>Ceramic Coating</h3>
+                <p>Long-lasting paint protection</p>
+            </div>
+        </div>
+
+        <!-- Additional placeholder items -->
+        <div class="gallery-item" data-category="exterior" data-aos="fade-up">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Exterior Detailing">
+            </div>
+            <div class="gallery-caption">
+                <h3>Exterior Detailing</h3>
+                <p>Complete exterior care and protection</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-category="interior" data-aos="fade-up" data-aos-delay="100">
+            <div class="gallery-image">
+                <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Interior Detailing">
+            </div>
+            <div class="gallery-caption">
+                <h3>Interior Detailing</h3>
+                <p>Premium interior cleaning and protection</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Client Testimonials</h2>
+        <p>What our customers say about our services</p>
+    </div>
+    
+    <div class="testimonial-slider" data-aos="fade-up">
+        <div class="testimonial">
+            <div class="quote">"Refn Auto Studio transformed my Range Rover. The attention to detail was exceptional, and they came right to my office. Couldn't be happier!"</div>
+            <div class="client">- Michael T., Yorkville</div>
+        </div>
+        <div class="testimonial">
+            <div class="quote">"I'm extremely particular about my Ferrari, and Refn is the only detailing service I trust. Their Signature Finish is absolutely worth every penny."</div>
+            <div class="client">- Sarah L., Forest Hill</div>
+        </div>
+        <div class="testimonial">
+            <div class="quote">"Convenient, professional, and simply the best results. My Tesla has never looked better. Highly recommend their Studio Plus package."</div>
+            <div class="client">- David K., Downtown Toronto</div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2 data-aos="fade-up">Ready to Transform Your Vehicle?</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Book your detailing service today</p>
+    <a href="https://refnautostudio.zohobookings.ca/#/luxcraft" class="btn btn-large" data-aos="fade-up" data-aos-delay="200" target="_blank">Book Now</a>
+</section>
+{% endblock %}
