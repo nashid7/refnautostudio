@@ -900,25 +900,29 @@ footer {
 
 @media (max-width: 768px) {
     header {
-        padding: 0.6rem 5%;
+        padding: 0.8rem 4%;
     }
     
     header.scrolled {
-        padding: 0.5rem 5%;
+        padding: 0.7rem 4%;
     }
     
     .logo-image {
-        height: 35px;
+        height: 40px;
     }
     
     header.scrolled .logo-image {
-        height: 30px;
+        height: 35px;
+    }
+    
+    nav {
+        margin-left: 10px;
     }
     
     nav ul {
         display: flex;
-        justify-content: center;
-        gap: 0.6rem;
+        justify-content: flex-end;
+        gap: 1rem;
     }
     
     nav li {
@@ -926,18 +930,18 @@ footer {
     }
     
     nav a {
-        font-size: 0.7rem;
-        letter-spacing: 0;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
     }
     
     .cta-button {
-        padding: 0.3rem 0.75rem;
-        font-size: 0.7rem;
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
     }
     
     /* Adjust main content margin */
     main {
-        margin-top: 60px;
+        margin-top: 65px;
     }
     
     .hero-gradient h1 {
@@ -976,27 +980,27 @@ footer {
 
 @media (max-width: 480px) {
     header {
-        padding: 0.5rem 4%;
+        padding: 0.7rem 3%;
     }
     
     .logo-image {
-        height: 32px;
+        height: 38px;
     }
     
     header.scrolled .logo-image {
-        height: 28px;
-    }
-    
-    nav a {
-        font-size: 0.65rem;
+        height: 34px;
     }
     
     nav ul {
-        gap: 0.4rem;
+        gap: 0.7rem;
+    }
+    
+    nav a {
+        font-size: 0.75rem;
     }
     
     main {
-        margin-top: 50px;
+        margin-top: 60px;
     }
     
     .hero-gradient h1 {
