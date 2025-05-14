@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Refn Auto Studio - Premium Mobile Auto Detailing{% endblock %}</title>
+    <title>{% block title %}Refn Auto Studio - Premium Mobile Auto Detailing in Toronto{% endblock %}</title>
+    <meta name="description" content="{% block description %}Premium mobile auto detailing and carwash service in Toronto. We bring high-end car care directly to you. Book now!{% endblock %}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <!-- Animation and Slider Libraries -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -23,23 +25,20 @@
             </a>
         </div>
         <nav>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/pricing">Packages</a></li>
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/gallery">Gallery</a></li>
-                <li><a href="https://refnautostudio.setmore.com" class="cta-button" target="_blank">Book Now</a></li>
+                <li><a href="https://refnautostudio.zohobookings.ca/#/luxcraft" class="cta-button" target="_blank">Book Now</a></li>
             </ul>
         </nav>
     </header>
+    
     <main>
         {% block content %}{% endblock %}
     </main>
+    
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -65,10 +64,12 @@
             <p>&copy; 2023 Refn Auto Studio. All rights reserved.</p>
         </div>
     </footer>
+    
     <!-- Floating CTA Button -->
     <div class="floating-cta">
-        <a href="https://refnautostudio.setmore.com" class="floating-cta-button" target="_blank">Book Now</a>
+        <a href="https://refnautostudio.zohobookings.ca/#/luxcraft" class="floating-cta-button" target="_blank">Book Now</a>
     </div>
+    
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
