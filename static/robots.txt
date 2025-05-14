@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://refnautostudio.ca/static/sitemap.xml 
