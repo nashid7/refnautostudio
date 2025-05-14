@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
@@ -21,6 +21,11 @@ def about():
 def gallery():
     """Render the gallery page."""
     return render_template('gallery.html')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """Serve the sitemap.xml file at the root URL for SEO."""
+    return send_from_directory('static', 'sitemap.xml')
 
 if __name__ == '__main__':
     app.run(debug=True)
