@@ -25,7 +25,7 @@ def gallery():
 @app.route('/sitemap.xml')
 def sitemap():
     """Serve the sitemap.xml file at the root URL for SEO."""
-    return send_from_directory('static', 'sitemap.xml')
+    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
 if __name__ == '__main__':
     app.run(debug=True)
