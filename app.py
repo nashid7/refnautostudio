@@ -27,5 +27,10 @@ def sitemap():
     """Serve the sitemap.xml file at the root URL for SEO."""
     return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
+@app.route('/favicon.ico')
+def favicon():
+    """Serve favicon.ico from the static directory at the root URL."""
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 if __name__ == '__main__':
     app.run(debug=True)
