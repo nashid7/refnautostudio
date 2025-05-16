@@ -27,6 +27,11 @@ def sitemap():
     """Serve the sitemap.xml file at the root URL for SEO."""
     return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
+@app.route('/robots.txt')
+def robots():
+    """Serve the robots.txt file at the root URL for SEO."""
+    return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+
 @app.route('/favicon.ico')
 def favicon():
     """Serve favicon.ico from the static directory at the root URL."""
