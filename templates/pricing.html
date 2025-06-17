@@ -9,11 +9,25 @@
     <p data-aos="fade-up" data-aos-delay="100">Professional mobile services tailored to your vehicle's needs</p>
 </section>
 
+<!-- Vehicle Type Selection -->
+<section class="vehicle-selector">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Select Your Vehicle Type</h2>
+        <p>Prices shown are for SEDAN by default. Hover over a vehicle type to see adjusted pricing.</p>
+    </div>
+    <div class="vehicle-types" data-aos="fade-up">
+        <button type="button" class="vehicle-type active" data-vehicle="sedan" data-price-factor="1">SEDAN</button>
+        <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV (+10%)</button>
+        <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK (+15%)</button>
+        <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN (+20%)</button>
+    </div>
+</section>
+
 <section class="pricing-plans">
     <div class="plan" data-aos="fade-up" data-aos-delay="0">
         <div class="plan-header">
             <h2>Express Detail</h2>
-            <p class="price">Starting at $99</p>
+            <p class="price" data-base-price="99">Starting at $99</p>
         </div>
         <div class="plan-features">
             <ul>
@@ -33,7 +47,7 @@
     <div class="plan" data-aos="fade-up" data-aos-delay="100">
         <div class="plan-header">
             <h2>Studio Basic</h2>
-            <p class="price">Starting at $149</p>
+            <p class="price" data-base-price="149">Starting at $149</p>
         </div>
         <div class="plan-features">
             <ul>
@@ -55,73 +69,4 @@
         <div class="ribbon">Popular</div>
         <div class="plan-header">
             <h2>Studio Plus</h2>
-            <p class="price">Starting at $179</p>
-        </div>
-        <div class="plan-features">
-            <ul>
-                <li>Everything in Studio Basic</li>
-                <li>One-step polish</li>
-                <li>Carpet shampooing</li>
-                <li>Salt Stain removal</li>
-                <li>2.5-3 hour service</li>
-            </ul>
-        </div>
-        <div class="plan-footer">
-            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
-        </div>
-    </div>
-    
-    <div class="plan" data-aos="fade-up" data-aos-delay="300">
-        <div class="plan-header">
-            <h2>Signature Finish</h2>
-            <p class="price">Starting at $249</p>
-        </div>
-        <div class="plan-features">
-            <ul>
-                <li>Everything in Studio Plus</li>
-                <li>Iron Decontamination</li>
-                <li>Premium Carpet/Leather Treatment</li>
-                <li>Full Interior Sanitization</li>
-                <li>Pet hair removal</li>
-                <li>Premium interior protection</li>
-                <li>3.5-5 hour service</li>
-            </ul>
-        </div>
-        <div class="plan-footer">
-            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
-        </div>
-    </div>
-</section>
-
-<section class="additional-services">
-    <div class="section-header" data-aos="fade-up">
-        <h2>Additional Services</h2>
-        <p>Customize your detailing experience with these add-ons</p>
-    </div>
-    
-    <div class="services-grid">
-        <div class="add-on" data-aos="fade-up" data-aos-delay="0">
-            <h3>Pet Hair Removal</h3>
-            <p>Starting at $25</p>
-        </div>
-        <div class="add-on" data-aos="fade-up" data-aos-delay="100">
-            <h3>Clay Bar Treatment</h3>
-            <p>Starting at $30</p>
-        </div>
-        <div class="add-on" data-aos="fade-up" data-aos-delay="200">
-            <h3>Headlight Restoration</h3>
-            <p>Starting at $59</p>
-        </div>
-        <div class="add-on" data-aos="fade-up" data-aos-delay="300">
-            <h3>Salt Stain Removal</h3>
-            <p>Starting at $25</p>
-        </div>
-    </div>
-</section>
-
-<section class="cta-section">
-    <h2 data-aos="fade-up">Ready to Experience the Refn Difference?</h2>
-    <p data-aos="fade-up" data-aos-delay="100">Schedule your mobile detailing appointment today</p>
-    <a href="#" class="btn btn-large" data-aos="fade-up" data-aos-delay="200" target="_blank">Book Your Appointment</a>
-</section>
-{% endblock %}
+            <p class="
