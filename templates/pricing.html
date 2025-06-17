@@ -18,9 +18,9 @@
     <div class="vehicle-types-container" data-aos="fade-up">
         <div class="vehicle-types">
             <button type="button" class="vehicle-type active" data-vehicle="sedan" data-price-factor="1">SEDAN</button>
-            <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV </button>
-            <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK </button>
-            <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN </button>
+            <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV (+10%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK (+15%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN (+20%)</button>
         </div>
     </div>
 </section>
@@ -30,6 +30,7 @@
         <div class="plan-header">
             <h2>Express Detail</h2>
             <p class="price" data-base-price="99">Starting at $99</p>
+            <span class="price-change"></span>
         </div>
         <div class="plan-features">
             <ul>
@@ -50,6 +51,7 @@
         <div class="plan-header">
             <h2>Studio Basic</h2>
             <p class="price" data-base-price="149">Starting at $149</p>
+            <span class="price-change"></span>
         </div>
         <div class="plan-features">
             <ul>
@@ -72,6 +74,7 @@
         <div class="plan-header">
             <h2>Studio Plus</h2>
             <p class="price" data-base-price="179">Starting at $179</p>
+            <span class="price-change"></span>
         </div>
         <div class="plan-features">
             <ul>
@@ -93,6 +96,7 @@
         <div class="plan-header">
             <h2>Signature Finish</h2>
             <p class="price" data-base-price="249">Starting at $249</p>
+            <span class="price-change"></span>
         </div>
         <div class="plan-features">
             <ul>
@@ -121,18 +125,22 @@
         <div class="add-on" data-aos="fade-up" data-aos-delay="0">
             <h3>Pet Hair Removal</h3>
             <p class="addon-price" data-base-price="35">Starting at $35</p>
+            <span class="price-change"></span>
         </div>
         <div class="add-on" data-aos="fade-up" data-aos-delay="100">
             <h3>Odor Elimination</h3>
             <p class="addon-price" data-base-price="45">Starting at $45</p>
+            <span class="price-change"></span>
         </div>
         <div class="add-on" data-aos="fade-up" data-aos-delay="200">
             <h3>Headlight Restoration</h3>
             <p class="addon-price" data-base-price="59">Starting at $59</p>
+            <span class="price-change"></span>
         </div>
         <div class="add-on" data-aos="fade-up" data-aos-delay="300">
             <h3>Water Spot Removal</h3>
             <p class="addon-price" data-base-price="49">Starting at $49</p>
+            <span class="price-change"></span>
         </div>
     </div>
 </section>
@@ -191,6 +199,31 @@
         transition: all 0.3s ease;
     }
     
+    /* Price change indicator */
+    .price-change {
+        display: inline-block;
+        margin-left: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        position: relative;
+        top: -2px;
+    }
+    
+    .price-change.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .price-change.increase {
+        color: #1c3879;
+    }
+    
+    .price-change.increase::before {
+        content: '? ';
+    }
+    
     @media (max-width: 768px) {
         .vehicle-types {
             gap: 0.3rem;
@@ -223,16 +256,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const vehicleButtons = document.querySelectorAll('.vehicle-type');
     const priceElements = document.querySelectorAll('.price, .addon-price');
     
-    // Store original prices
+    // Store original prices and related change indicators
     const originalPrices = {};
     
     // Save original prices
     priceElements.forEach(element => {
         const basePrice = parseFloat(element.getAttribute('data-base-price'));
+        const priceChangeElement = element.nextElementSibling;
+        
         originalPrices[element.className] = originalPrices[element.className] || [];
         originalPrices[element.className].push({
             element: element,
-            price: basePrice
+            price: basePrice,
+            changeIndicator: priceChangeElement
         });
     });
     
@@ -240,13 +276,339 @@ document.addEventListener('DOMContentLoaded', function() {
     function updatePrices(factor, temporary) {
         Object.keys(originalPrices).forEach(className => {
             originalPrices[className].forEach(item => {
-                const newPrice = Math.round(item.price * factor);
+                const basePrice = item.price;
+                const newPrice = Math.round(basePrice * factor);
+                
+                // Update price text
                 item.element.textContent = `Starting at $${newPrice}`;
                 
                 if (temporary) {
                     item.element.classList.add('price-hover');
                 } else {
                     item.element.classList.remove('price-hover');
+                }
+                
+                // Update price change indicator
+                if (factor !== 1) {
+                    const percentChange = Math.round((factor - 1) * 100);
+                    item.changeIndicator.textContent = `+${percentChange}%`;
+                    item.changeIndicator.classList.add('visible', 'increase');
+                } else {
+                    item.changeIndicator.classList.remove('visible', 'increase');
+                }
+            });
+        });
+    }
+    
+    // Add event listeners to vehicle buttons
+    vehicleButtons.forEach(button => {
+        // Mouse enter event
+        button.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('active')) {
+                const factor = parseFloat(this.getAttribute('data-price-factor'));
+                updatePrices(factor, true);
+            }
+        });
+        
+        // Mouse leave event
+        button.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {{% extends 'base.html' %}
+
+{% block title %}Detailing Packages | Refn Auto Studio{% endblock %}
+{% block description %}Explore Refn Auto Studio's mobile detailing packages in Toronto. Compare Express, Studio Basic, Studio Plus, and Signature Finish services, plus add-ons for a custom clean.{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1 data-aos="fade-up">Our Detailing Packages</h1>
+    <p data-aos="fade-up" data-aos-delay="100">Professional mobile services tailored to your vehicle's needs</p>
+</section>
+
+<!-- Vehicle Type Selection -->
+<section class="vehicle-selector">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Select Your Vehicle Type</h2>
+        <p>Prices shown are for SEDAN by default. Hover over or select a vehicle type to see adjusted pricing.</p>
+    </div>
+    <div class="vehicle-types-container" data-aos="fade-up">
+        <div class="vehicle-types">
+            <button type="button" class="vehicle-type active" data-vehicle="sedan" data-price-factor="1">SEDAN</button>
+            <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV (+10%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK (+15%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN (+20%)</button>
+        </div>
+    </div>
+</section>
+
+<section class="pricing-plans">
+    <div class="plan" data-aos="fade-up" data-aos-delay="0">
+        <div class="plan-header">
+            <h2>Express Detail</h2>
+            <p class="price" data-base-price="99">Starting at $99</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="plan-features">
+            <ul>
+                <li>Exterior hand wash</li>
+                <li>Wheel cleaning</li>
+                <li>Basic interior vacuum</li>
+                <li>Dashboard & console wipe down</li>
+                <li>Window cleaning</li>
+                <li>45-60 minute service</li>
+            </ul>
+        </div>
+        <div class="plan-footer">
+            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
+        </div>
+    </div>
+    
+    <div class="plan" data-aos="fade-up" data-aos-delay="100">
+        <div class="plan-header">
+            <h2>Studio Basic</h2>
+            <p class="price" data-base-price="149">Starting at $149</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="plan-features">
+            <ul>
+                <li>Everything in Express Detail</li>
+                <li>Full interior vacuum</li>
+                <li>Leather conditioning</li>
+                <li>Air vent cleaning</li>
+                <li>Door jamb cleaning</li>
+                <li>Tire dressing</li>
+                <li>1.5-2 hour service</li>
+            </ul>
+        </div>
+        <div class="plan-footer">
+            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
+        </div>
+    </div>
+    
+    <div class="plan featured" data-aos="fade-up" data-aos-delay="200">
+        <div class="ribbon">Popular</div>
+        <div class="plan-header">
+            <h2>Studio Plus</h2>
+            <p class="price" data-base-price="179">Starting at $179</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="plan-features">
+            <ul>
+                <li>Everything in Studio Basic</li>
+                <li>Clay bar treatment</li>
+                <li>One-step polish</li>
+                <li>Carpet shampooing</li>
+                <li>Stain removal</li>
+                <li>Premium wax application</li>
+                <li>2.5-3 hour service</li>
+            </ul>
+        </div>
+        <div class="plan-footer">
+            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
+        </div>
+    </div>
+    
+    <div class="plan" data-aos="fade-up" data-aos-delay="300">
+        <div class="plan-header">
+            <h2>Signature Finish</h2>
+            <p class="price" data-base-price="249">Starting at $249</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="plan-features">
+            <ul>
+                <li>Everything in Studio Plus</li>
+                <li>Two-step paint correction</li>
+                <li>Ceramic coating application</li>
+                <li>Engine bay detailing</li>
+                <li>Headlight restoration</li>
+                <li>Premium interior protection</li>
+                <li>3.5-5 hour service</li>
+            </ul>
+        </div>
+        <div class="plan-footer">
+            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
+        </div>
+    </div>
+</section>
+
+<section class="additional-services">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Additional Services</h2>
+        <p>Customize your detailing experience with these add-ons</p>
+    </div>
+    
+    <div class="services-grid">
+        <div class="add-on" data-aos="fade-up" data-aos-delay="0">
+            <h3>Pet Hair Removal</h3>
+            <p class="addon-price" data-base-price="35">Starting at $35</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="100">
+            <h3>Odor Elimination</h3>
+            <p class="addon-price" data-base-price="45">Starting at $45</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="200">
+            <h3>Headlight Restoration</h3>
+            <p class="addon-price" data-base-price="59">Starting at $59</p>
+            <span class="price-change"></span>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="300">
+            <h3>Water Spot Removal</h3>
+            <p class="addon-price" data-base-price="49">Starting at $49</p>
+            <span class="price-change"></span>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2 data-aos="fade-up">Ready to Experience the Refn Difference?</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Schedule your mobile detailing appointment today</p>
+    <a href="https://refnautostudio.setmore.com" class="btn btn-large" data-aos="fade-up" data-aos-delay="200" target="_blank">Book Your Appointment</a>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<style>
+    /* Vehicle Type Selection Styles */
+    .vehicle-selector {
+        padding: 2rem 5%;
+        background-color: var(--accent-color);
+    }
+    
+    .vehicle-types-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+    }
+    
+    .vehicle-types {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .vehicle-type {
+        background-color: var(--secondary-color);
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.5rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .vehicle-type:hover, .vehicle-type.active {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    .price-hover {
+        color: #1c3879;
+        font-weight: 700;
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+    
+    /* Price change indicator */
+    .price-change {
+        display: inline-block;
+        margin-left: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        position: relative;
+        top: -2px;
+    }
+    
+    .price-change.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .price-change.increase {
+        color: #1c3879;
+    }
+    
+    .price-change.increase::before {
+        content: '? ';
+    }
+    
+    @media (max-width: 768px) {
+        .vehicle-types {
+            gap: 0.3rem;
+        }
+        
+        .vehicle-type {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .vehicle-types {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .vehicle-type {
+            width: 100%;
+            padding: 0.6rem;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all vehicle buttons and price elements
+    const vehicleButtons = document.querySelectorAll('.vehicle-type');
+    const priceElements = document.querySelectorAll('.price, .addon-price');
+    
+    // Store original prices and related change indicators
+    const originalPrices = {};
+    
+    // Save original prices
+    priceElements.forEach(element => {
+        const basePrice = parseFloat(element.getAttribute('data-base-price'));
+        const priceChangeElement = element.nextElementSibling;
+        
+        originalPrices[element.className] = originalPrices[element.className] || [];
+        originalPrices[element.className].push({
+            element: element,
+            price: basePrice,
+            changeIndicator: priceChangeElement
+        });
+    });
+    
+    // Function to update prices
+    function updatePrices(factor, temporary) {
+        Object.keys(originalPrices).forEach(className => {
+            originalPrices[className].forEach(item => {
+                const basePrice = item.price;
+                const newPrice = Math.round(basePrice * factor);
+                
+                // Update price text
+                item.element.textContent = `Starting at $${newPrice}`;
+                
+                if (temporary) {
+                    item.element.classList.add('price-hover');
+                } else {
+                    item.element.classList.remove('price-hover');
+                }
+                
+                // Update price change indicator
+                if (factor !== 1) {
+                    const percentChange = Math.round((factor - 1) * 100);
+                    item.changeIndicator.textContent = `+${percentChange}%`;
+                    item.changeIndicator.classList.add('visible', 'increase');
+                } else {
+                    item.changeIndicator.classList.remove('visible', 'increase');
                 }
             });
         });
@@ -282,6 +644,33 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePrices(factor, false);
         });
     });
+    
+    // Initialize with default pricing
+    updatePrices(1, false);
+});
+</script>
+{% endblock %}
+
+                const activeButton = document.querySelector('.vehicle-type.active');
+                const activeFactor = parseFloat(activeButton.getAttribute('data-price-factor'));
+                updatePrices(activeFactor, false);
+            }
+        });
+        
+        // Click eve
+        button.addEventListener('click', function() {
+            vehicleButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            this.classList.add('active');
+            const factor = parseFloat(this.getAttribute('data-price-factor'));
+            updatePrices(factor, false);
+        });
+    });
+    
+    // Initialize with default pricing
+    updatePrices(1, false);
 });
 </script>
 {% endblock %}
