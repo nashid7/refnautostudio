@@ -13,13 +13,15 @@
 <section class="vehicle-selector">
     <div class="section-header" data-aos="fade-up">
         <h2>Select Your Vehicle Type</h2>
-        <p>Prices shown are for SEDAN by default. Hover over a vehicle type to see adjusted pricing.</p>
+        <p>Prices shown are for SEDAN by default. Hover over or select a vehicle type to see adjusted pricing.</p>
     </div>
-    <div class="vehicle-types" data-aos="fade-up">
-        <button type="button" class="vehicle-type active" data-vehicle="sedan" data-price-factor="1">SEDAN</button>
-        <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV (+10%)</button>
-        <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK (+15%)</button>
-        <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN (+20%)</button>
+    <div class="vehicle-types-container" data-aos="fade-up">
+        <div class="vehicle-types">
+            <button type="button" class="vehicle-type active" data-vehicle="sedan" data-price-factor="1">SEDAN</button>
+            <button type="button" class="vehicle-type" data-vehicle="suv" data-price-factor="1.10">SUV (+10%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="truck" data-price-factor="1.15">TRUCK (+15%)</button>
+            <button type="button" class="vehicle-type" data-vehicle="van" data-price-factor="1.20">VAN (+20%)</button>
+        </div>
     </div>
 </section>
 
@@ -143,6 +145,78 @@
 {% endblock %}
 
 {% block scripts %}
+<style>
+    /* Vehicle Type Selection Styles */
+    .vehicle-selector {
+        padding: 2rem 5%;
+        background-color: var(--accent-color);
+    }
+    
+    .vehicle-types-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3rem;
+    }
+    
+    .vehicle-types {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .vehicle-type {
+        background-color: var(--secondary-color);
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 0.5rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .vehicle-type:hover, .vehicle-type.active {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    .price-hover {
+        color: #1c3879;
+        font-weight: 700;
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+    
+    @media (max-width: 768px) {
+        .vehicle-types {
+            gap: 0.3rem;
+        }
+        
+        .vehicle-type {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .vehicle-types {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .vehicle-type {
+            width: 100%;
+            padding: 0.6rem;
+        }
+    }
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Get all vehicle buttons and price elements
