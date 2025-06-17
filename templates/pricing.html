@@ -193,7 +193,7 @@
     }
     
     .price-hover {
-        color: #1c3879;
+        color: var(--primary-color);
         font-weight: 700;
         transform: scale(1.05);
         transition: all 0.3s ease;
@@ -212,16 +212,17 @@
     }
     
     .price-change.visible {
-        opacity: 1;
+        opacity: 0.7;
         transform: translateY(0);
     }
     
     .price-change.increase {
-        color: #1c3879;
+        color: var(--light-gray);
     }
     
-    .price-change.increase::before {
-        content: '? ';
+    /* Remove triangle symbol for cleaner look */
+    .price-change::before {
+        content: '';
     }
     
     @media (max-width: 768px) {
@@ -268,23 +269,52 @@ document.addEventListener('DOMContentLoaded', function() {
         originalPrices[element.className].push({
             element: element,
             price: basePrice,
-            changeIndicator: priceChangeElement
+            changeIndicator: priceChangeElement,
+            currentPrice: basePrice // Track current displayed price for animation
         });
     });
     
-    // Function to update prices
+    // Animation function for counting up/down
+    function animatePrice(element, startPrice, endPrice, duration = 500) {
+        const startTime = performance.now();
+        const updatePrice = (timestamp) => {
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function for smoother animation
+            const easeOutQuad = progress * (2 - progress);
+            
+            // Calculate current value in the animation
+            const currentValue = startPrice + (endPrice - startPrice) * easeOutQuad;
+            
+            // Update text with formatted price
+            element.textContent = `Starting at $${Math.round(currentValue)}`;
+            
+            // Continue animation if not complete
+            if (progress < 1) {
+                requestAnimationFrame(updatePrice);
+            }
+        };
+        
+        requestAnimationFrame(updatePrice);
+    }
+    
+    // Function to update prices with animation
     function updatePrices(factor, temporary) {
         Object.keys(originalPrices).forEach(className => {
             originalPrices[className].forEach(item => {
                 const basePrice = item.price;
                 const newPrice = Math.round(basePrice * factor);
-                
-                // Update price text
-                item.element.textContent = `Starting at $${newPrice}`;
+                const currentDisplayedPrice = item.currentPrice;
                 
                 if (temporary) {
+                    // Just show hover effect without animation for hover
+                    item.element.textContent = `Starting at $${newPrice}`;
                     item.element.classList.add('price-hover');
                 } else {
+                    // Animate the price change
+                    animatePrice(item.element, currentDisplayedPrice, newPrice);
+                    item.currentPrice = newPrice; // Update the current price
                     item.element.classList.remove('price-hover');
                 }
                 
@@ -298,6 +328,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }
+    
+    // Save vehicle selection to localStorage
+    function saveVehicleSelection(vehicleType, priceFactor) {
+        localStorage.setItem('refn_selected_vehicle', vehicleType);
+        localStorage.setItem('refn_price_factor', priceFactor);
+    }
+    
+    // Load vehicle selection from localStorage
+    function loadVehicleSelection() {
+        const savedVehicle = localStorage.getItem('refn_selected_vehicle');
+        const savedFactor = localStorage.getItem('refn_price_factor');
+        
+        if (savedVehicle && savedFactor) {
+            // Find the button for the saved vehicle type
+            const savedButton = Array.from(vehicleButtons).find(
+                button => button.getAttribute('data-vehicle') === savedVehicle
+            );
+            
+            if (savedButton) {
+                // Update active state
+                vehicleButtons.forEach(btn => btn.classList.remove('active'));
+                savedButton.classList.add('active');
+                
+                // Update prices without animation on initial load
+                const factor = parseFloat(savedFactor);
+                
+                // Set initial prices without animation
+                Object.keys(originalPrices).forEach(className => {
+                    originalPrices[className].forEach(item => {
+                        const basePrice = item.price;
+                        const newPrice = Math.round(basePrice * factor);
+                        item.element.textContent = `Starting at $${newPrice}`;
+                        item.currentPrice = newPrice;
+                        
+                        // Update price change indicator
+                        if (factor !== 1) {
+                            const percentChange = Math.round((factor - 1) * 100);
+                            item.changeIndicator.textContent = `+${percentChange}%`;
+                            item.changeIndicator.classList.add('visible', 'increase');
+                        }
+                    });
+                });
+                
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     // Add event listeners to vehicle buttons
@@ -327,12 +406,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             this.classList.add('active');
             const factor = parseFloat(this.getAttribute('data-price-factor'));
+            const vehicleType = this.getAttribute('data-vehicle');
+            
             updatePrices(factor, false);
+            
+            // Save selection to localStorage
+            saveVehicleSelection(vehicleType, factor);
         });
     });
     
-    // Initialize with default pricing
-    updatePrices(1, false);
+    // Initialize: try to load saved vehicle, or default to sedan
+    if (!loadVehicleSelection()) {
+        // If no saved vehicle, initialize with default pricing (sedan)
+        updatePrices(1, false);
+    }
 });
 </script>
 {% endblock %}
