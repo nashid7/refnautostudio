@@ -87,4 +87,127 @@
         </div>
     </div>
     
-    <div class="plan" data
+    <div class="plan" data-aos="fade-up" data-aos-delay="300">
+        <div class="plan-header">
+            <h2>Signature Finish</h2>
+            <p class="price" data-base-price="249">Starting at $249</p>
+        </div>
+        <div class="plan-features">
+            <ul>
+                <li>Everything in Studio Plus</li>
+                <li>Two-step paint correction</li>
+                <li>Ceramic coating application</li>
+                <li>Engine bay detailing</li>
+                <li>Headlight restoration</li>
+                <li>Premium interior protection</li>
+                <li>3.5-5 hour service</li>
+            </ul>
+        </div>
+        <div class="plan-footer">
+            <a href="https://refnautostudio.setmore.com" class="btn" target="_blank">Book Now</a>
+        </div>
+    </div>
+</section>
+
+<section class="additional-services">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Additional Services</h2>
+        <p>Customize your detailing experience with these add-ons</p>
+    </div>
+    
+    <div class="services-grid">
+        <div class="add-on" data-aos="fade-up" data-aos-delay="0">
+            <h3>Pet Hair Removal</h3>
+            <p class="addon-price" data-base-price="35">Starting at $35</p>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="100">
+            <h3>Odor Elimination</h3>
+            <p class="addon-price" data-base-price="45">Starting at $45</p>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="200">
+            <h3>Headlight Restoration</h3>
+            <p class="addon-price" data-base-price="59">Starting at $59</p>
+        </div>
+        <div class="add-on" data-aos="fade-up" data-aos-delay="300">
+            <h3>Water Spot Removal</h3>
+            <p class="addon-price" data-base-price="49">Starting at $49</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2 data-aos="fade-up">Ready to Experience the Refn Difference?</h2>
+    <p data-aos="fade-up" data-aos-delay="100">Schedule your mobile detailing appointment today</p>
+    <a href="https://refnautostudio.setmore.com" class="btn btn-large" data-aos="fade-up" data-aos-delay="200" target="_blank">Book Your Appointment</a>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all vehicle buttons and price elements
+    const vehicleButtons = document.querySelectorAll('.vehicle-type');
+    const priceElements = document.querySelectorAll('.price, .addon-price');
+    
+    // Store original prices
+    const originalPrices = {};
+    
+    // Save original prices
+    priceElements.forEach(element => {
+        const basePrice = parseFloat(element.getAttribute('data-base-price'));
+        originalPrices[element.className] = originalPrices[element.className] || [];
+        originalPrices[element.className].push({
+            element: element,
+            price: basePrice
+        });
+    });
+    
+    // Function to update prices
+    function updatePrices(factor, temporary) {
+        Object.keys(originalPrices).forEach(className => {
+            originalPrices[className].forEach(item => {
+                const newPrice = Math.round(item.price * factor);
+                item.element.textContent = `Starting at $${newPrice}`;
+                
+                if (temporary) {
+                    item.element.classList.add('price-hover');
+                } else {
+                    item.element.classList.remove('price-hover');
+                }
+            });
+        });
+    }
+    
+    // Add event listeners to vehicle buttons
+    vehicleButtons.forEach(button => {
+        // Mouse enter event
+        button.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('active')) {
+                const factor = parseFloat(this.getAttribute('data-price-factor'));
+                updatePrices(factor, true);
+            }
+        });
+        
+        // Mouse leave event
+        button.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                const activeButton = document.querySelector('.vehicle-type.active');
+                const activeFactor = parseFloat(activeButton.getAttribute('data-price-factor'));
+                updatePrices(activeFactor, false);
+            }
+        });
+        
+        // Click event
+        button.addEventListener('click', function() {
+            vehicleButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            this.classList.add('active');
+            const factor = parseFloat(this.getAttribute('data-price-factor'));
+            updatePrices(factor, false);
+        });
+    });
+});
+</script>
+{% endblock %}
