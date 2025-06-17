@@ -37,6 +37,11 @@
             </a>
         </div>
         <nav>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/pricing">Packages</a></li>
@@ -84,5 +89,6 @@
     
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
